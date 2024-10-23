@@ -1,9 +1,9 @@
 # BRGEngine.SDK
 
-## Versione 1.0.0
+## Versione 1.0.1
 
 ### New Features
-- Added ability to create Systems structure.
+- Added Button custom attribute for editor.
 
 ### Bug Fixes
 - none

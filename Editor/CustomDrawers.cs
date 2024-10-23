@@ -1,12 +1,14 @@
 using UnityEditor;
 using UnityEngine;
-namespace BRGEngine.Core {
+using System.Reflection;
+using System;
 
+namespace BRGEngine.Core {
 
     #region Inline Editing Espandable
 
-    [CustomPropertyDrawer(typeof(AttributesAttribute))]
-    public class ExpandableDrawer : PropertyDrawer {
+    [CustomPropertyDrawer(typeof(InlineAttribute))]
+    public class InlineDrawers : PropertyDrawer {
         private Editor editor = null;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
@@ -114,6 +116,59 @@ namespace BRGEngine.Core {
             }
         }
     }
+
+    #endregion
+
+    #region Button
+
+    [CustomEditor(typeof(MonoBehaviour), true)]
+    public class ButtonMethodDrawer : Editor {
+        public override void OnInspectorGUI() {
+            base.OnInspectorGUI();
+
+            // Ottieni il tipo dell'oggetto target
+            var type = target.GetType();
+
+            // Ottieni tutti i metodi del tipo
+            var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+
+            foreach (var method in methods) {
+                // Controlla se il metodo ha l'attributo ButtonAttribute
+                var buttonAttribute = (ButtonAttribute)Attribute.GetCustomAttribute(method, typeof(ButtonAttribute));
+                if (buttonAttribute != null) {
+                    if (GUILayout.Button(buttonAttribute.ButtonText)) {
+                        // Verifica se il metodo ha parametri
+                        var parameters = method.GetParameters();
+                        if (parameters.Length == 0) {
+                            // Invoca il metodo senza parametri
+                            method.Invoke(target, null);
+                        } else {
+                            // Recupera i valori delle variabili specificate
+                            object[] parameterValues = new object[parameters.Length];
+                            for (int i = 0; i < parameters.Length; i++) {
+                                var parameter = parameters[i];
+                                var parameterName = buttonAttribute.ParameterNames.Length > i ? buttonAttribute.ParameterNames[i] : null;
+                                if (parameterName != null) {
+                                    var field = type.GetField(parameterName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                                    if (field != null) {
+                                        parameterValues[i] = field.GetValue(target);
+                                    } else {
+                                        Debug.LogError($"Field '{parameterName}' not found on '{type.Name}'.");
+                                        return;
+                                    }
+                                } else {
+                                    Debug.LogError($"Parameter name for parameter '{parameter.Name}' not specified.");
+                                    return;
+                                }
+                            }
+                            method.Invoke(target, parameterValues);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     #endregion
 

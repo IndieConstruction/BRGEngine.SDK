@@ -6,7 +6,7 @@ namespace BRGEngine.Core
     [DefaultExecutionOrder(-100000)]
     public class BRGEngineSystemsManager : MonoBehaviour
     {
-        [SerializeField, Attributes] private List<BaseSystem> systems = new List<BaseSystem>();
+        [SerializeField, Inline] private List<BaseSystem> systems = new List<BaseSystem>();
 
         private bool _isInitialized = false;
 
