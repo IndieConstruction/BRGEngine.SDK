@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BRGEngine.Core {
+namespace BRGEngine.SDK {
 
     public class SystemAttribute : Attribute {
         public string SystemName { get; set; }

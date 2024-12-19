@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BRGEngine.Core {
+namespace BRGEngine.SDK {
 
     // [CreateAssetMenu(fileName = "AppSystem", menuName = "BRGEngine/Systems/AppSystem")]
     public class AppSystem : BaseSystem {

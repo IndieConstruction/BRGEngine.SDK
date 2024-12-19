@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BRGEngine.Core
-{
+namespace BRGEngine.SDK {
     [DefaultExecutionOrder(-100000)]
     public class BRGEngineSystemsManager : MonoBehaviour
     {

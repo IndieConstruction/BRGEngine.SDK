@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 
-namespace BRGEngine.Core
-{
+namespace BRGEngine.SDK {
+
     #region Inline Editing Espandable
 
     public class InlineAttribute : PropertyAttribute

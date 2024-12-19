@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Reflection;
 using System;
 
-namespace BRGEngine.Core {
+namespace BRGEngine.SDK {
 
     #region Inline Editing Espandable
 

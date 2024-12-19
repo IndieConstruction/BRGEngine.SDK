@@ -1,0 +1,12 @@
+{
+  "name": "com.indieconstruction.brgengine.sdk",
+  "version": "1.1.0",
+  "displayName": "SDK",
+  "description": "SDK for BRGEngine.",
+  "unity": "2020.3",
+  "author": {
+    "name": "Brago (Paolo Bragonzi)",
+    "email": "bragolab@gmail.com",
+    "url": "https://indieconstruction.com"
+  }
+}

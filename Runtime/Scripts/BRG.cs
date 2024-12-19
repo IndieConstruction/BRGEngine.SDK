@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace BRGEngine.Core {
+namespace BRGEngine.SDK {
 
     public static class BRG {
 

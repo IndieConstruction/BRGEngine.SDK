@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BRGEngine.Core {
+namespace BRGEngine.SDK {
 
     /// <summary>
     /// This scriptable object is base type for any system.

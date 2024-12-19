@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BRGEngine.Core {
+namespace BRGEngine.SDK {
 
     public interface ISystem {
         void InitInternal(ISystem parentSystem);
