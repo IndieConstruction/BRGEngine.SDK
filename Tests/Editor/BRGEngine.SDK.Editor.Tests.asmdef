@@ -2,7 +2,9 @@
     "name": "BRGEngine.SDK.Editor.Tests",
     "rootNamespace": "BRGEngine.SDK",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
