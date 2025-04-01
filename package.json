@@ -1,6 +1,6 @@
 {
   "name": "com.indieconstruction.brgengine.sdk",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "displayName": "BRGEngine.SDK",
   "description": "SDK for BRGEngine.",
   "unity": "2022.3",
