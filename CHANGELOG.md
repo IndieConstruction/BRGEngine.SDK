@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.0] 
+- OnInitializationComplete method called inside any system when systems bootstrap is done.
+- Added StrategyExecutor<T> and InterfaceDropdown.
+
 ## [1.1.1] 
 - Now the system manager can be used as a singleton (default setting).
 

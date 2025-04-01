@@ -13,6 +13,11 @@ namespace BRGEngine.SDK {
         bool AutoInitAtStartup { get; }
 
         List<ISystem> SubSystems { get; }
+
+        /// <summary>
+        /// Called when all sistems are ready and any init is done. Override if needed.
+        /// </summary>
+        void OnInitializationComplete();
     }
 
 }

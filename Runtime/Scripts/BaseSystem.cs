@@ -52,6 +52,11 @@ namespace BRGEngine.SDK {
         public abstract void Init();
 
         /// <summary>
+        /// Called when all systems are ready and any init is done. Override if needed.
+        /// </summary>
+        public virtual void OnInitializationComplete() { }
+
+        /// <summary>
         /// Called when finish system lifecycle. Override if needed.
         /// </summary>
         public virtual void Finish() { }

@@ -10,6 +10,9 @@ namespace BRGEngine.SDK {
 
         #region Systems
 
+        /// <summary>
+        /// General event to notify that all systems are ready.
+        /// </summary>
         public static event Action OnAllSystemsSetupsDone;
 
         private static bool _isAllSystemsSetupsDone;
@@ -18,6 +21,9 @@ namespace BRGEngine.SDK {
             internal set {
                 _isAllSystemsSetupsDone = value;
                 if (_isAllSystemsSetupsDone) {
+                    foreach (var system in CurrentSystems) {
+                        system.OnInitializationComplete();
+                    }
                     OnAllSystemsSetupsDone?.Invoke();
                 }
             }
