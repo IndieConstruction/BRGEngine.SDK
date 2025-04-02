@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace BRGEngine.SDK {
 
+    /// <summary>
+    /// Executes a list of methods of a collection of objects of type T.
+    /// <see href="https://tangible-waste-db5.notion.site/StrategyExecutor-1c9d97a90d5c80b89010d18b989be6da">Documentation</see>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class StrategyExecutor<T> {
 
         private List<T> collection;
