@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.3.0] 
+- Added Dynamic system mechanics.
+
 ## [1.2.0] 
 - OnInitializationComplete method called inside any system when systems bootstrap is done.
 - Added StrategyExecutor<T> and InterfaceDropdown.

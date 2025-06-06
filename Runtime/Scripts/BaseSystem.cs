@@ -32,9 +32,9 @@ namespace BRGEngine.SDK {
         private ISystem _parentSystem;
 
 
-        public List<ISystem> SubSystems {
-            get { return _subSystems.ConvertAll(s => (ISystem)s); }
-            set { _subSystems = value.ConvertAll(s => (BaseSystem)s); }
+        public List<BaseSystem> SubSystems {
+            get { return _subSystems; }
+            set { _subSystems = value; }
         }
 
         [SerializeField]
@@ -43,8 +43,13 @@ namespace BRGEngine.SDK {
 
         public void InitInternal(ISystem parentSystem = null) {
             ParentSystem = parentSystem;
-            Init();
+            PreInit();
         }
+
+        /// <summary>
+        /// Called when all systems are added to systems list and befor any Init is called.
+        /// </summary>
+        public virtual void PreInit() { }
 
         /// <summary>
         /// Override with init functionalities.

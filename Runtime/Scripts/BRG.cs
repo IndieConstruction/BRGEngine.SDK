@@ -43,6 +43,11 @@ namespace BRGEngine.SDK {
                 BaseSystem systemInstance = initSystem(system, null) as BaseSystem;
                 CurrentSystems.Add(systemInstance);
             }
+
+
+            foreach (ISystem system in CurrentSystems) {
+                system.Init();
+            }
         }
 
         /// <summary>
@@ -63,6 +68,7 @@ namespace BRGEngine.SDK {
                     CurrentSystems.Add(initSystem(subSystem, systemInstance));
                 }
             }
+
             return systemInstance;
         }
 
