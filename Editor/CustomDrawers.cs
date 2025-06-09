@@ -1,7 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using System.Reflection;
-using System;
 
 namespace BRGEngine.SDK {
 
@@ -121,52 +122,106 @@ namespace BRGEngine.SDK {
 
     #region Button
 
-    [CustomEditor(typeof(MonoBehaviour), true)]
-    public class ButtonMethodDrawer : Editor {
-        public override void OnInspectorGUI() {
-            base.OnInspectorGUI();
+    namespace BRGEngine.SDK {
 
-            // Ottieni il tipo dell'oggetto target
-            var type = target.GetType();
+        #region Button
 
-            // Ottieni tutti i metodi del tipo
-            var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+        [CustomEditor(typeof(MonoBehaviour), true)]
+        public class ButtonMethodDrawerForMonoBehaviour : Editor {
+            // Dizionario per memorizzare i valori temporanei dei parametri per ogni oggetto e metodo
+            private static Dictionary<string, string> parameterInputs = new Dictionary<string, string>();
 
-            foreach (var method in methods) {
-                // Controlla se il metodo ha l'attributo ButtonAttribute
-                var buttonAttribute = (ButtonAttribute)Attribute.GetCustomAttribute(method, typeof(ButtonAttribute));
-                if (buttonAttribute != null) {
-                    if (GUILayout.Button(buttonAttribute.ButtonText)) {
-                        // Verifica se il metodo ha parametri
+            public override void OnInspectorGUI() {
+                base.OnInspectorGUI();
+
+                var type = target.GetType();
+                var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+
+                foreach (var method in methods) {
+                    var buttonAttribute = (ButtonAttribute)Attribute.GetCustomAttribute(method, typeof(ButtonAttribute));
+                    if (buttonAttribute != null) {
                         var parameters = method.GetParameters();
-                        if (parameters.Length == 0) {
-                            // Invoca il metodo senza parametri
-                            method.Invoke(target, null);
-                        } else {
-                            // Recupera i valori delle variabili specificate
-                            object[] parameterValues = new object[parameters.Length];
+                        object[] parameterValues = null;
+
+                        if (parameters.Length > 0) {
+                            parameterValues = new object[parameters.Length];
                             for (int i = 0; i < parameters.Length; i++) {
                                 var parameter = parameters[i];
-                                var parameterName = buttonAttribute.ParameterNames.Length > i ? buttonAttribute.ParameterNames[i] : null;
-                                if (parameterName != null) {
-                                    var field = type.GetField(parameterName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-                                    if (field != null) {
-                                        parameterValues[i] = field.GetValue(target);
-                                    } else {
-                                        Debug.LogError($"Field '{parameterName}' not found on '{type.Name}'.");
-                                        return;
-                                    }
+                                string key = $"{target.GetInstanceID()}_{method.Name}_{i}";
+                                string inputValue = parameterInputs.ContainsKey(key) ? parameterInputs[key] : string.Empty;
+
+                                // Solo per string, puoi estendere per altri tipi se necessario
+                                if (parameter.ParameterType == typeof(string)) {
+                                    inputValue = EditorGUILayout.TextField(parameter.Name, inputValue);
+                                    parameterInputs[key] = inputValue;
+                                    parameterValues[i] = inputValue;
                                 } else {
-                                    Debug.LogError($"Parameter name for parameter '{parameter.Name}' not specified.");
-                                    return;
+                                    EditorGUILayout.LabelField($"{parameter.Name}: tipo non supportato ({parameter.ParameterType.Name})");
+                                    parameterValues[i] = null;
                                 }
                             }
-                            method.Invoke(target, parameterValues);
+                        }
+
+                        if (GUILayout.Button(buttonAttribute.ButtonText)) {
+                            if (parameters.Length == 0) {
+                                method.Invoke(target, null);
+                            } else {
+                                method.Invoke(target, parameterValues);
+                            }
                         }
                     }
                 }
             }
         }
+
+        [CustomEditor(typeof(ScriptableObject), true)]
+        public class ButtonMethodDrawerForScriptableObject : Editor {
+            private static Dictionary<string, string> parameterInputs = new Dictionary<string, string>();
+
+            public override void OnInspectorGUI() {
+                base.OnInspectorGUI();
+
+                var type = target.GetType();
+                var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+
+                foreach (var method in methods) {
+                    var buttonAttribute = (ButtonAttribute)Attribute.GetCustomAttribute(method, typeof(ButtonAttribute));
+                    if (buttonAttribute != null) {
+                        var parameters = method.GetParameters();
+                        object[] parameterValues = null;
+
+                        if (parameters.Length > 0) {
+                            parameterValues = new object[parameters.Length];
+                            for (int i = 0; i < parameters.Length; i++) {
+                                var parameter = parameters[i];
+                                string key = $"{target.GetInstanceID()}_{method.Name}_{i}";
+                                string inputValue = parameterInputs.ContainsKey(key) ? parameterInputs[key] : string.Empty;
+
+                                if (parameter.ParameterType == typeof(string)) {
+                                    inputValue = EditorGUILayout.TextField(parameter.Name, inputValue);
+                                    parameterInputs[key] = inputValue;
+                                    parameterValues[i] = inputValue;
+                                } else {
+                                    EditorGUILayout.LabelField($"{parameter.Name}: tipo non supportato ({parameter.ParameterType.Name})");
+                                    parameterValues[i] = null;
+                                }
+                            }
+                        }
+
+                        if (GUILayout.Button(buttonAttribute.ButtonText)) {
+                            if (parameters.Length == 0) {
+                                method.Invoke(target, null);
+                            } else {
+                                method.Invoke(target, parameterValues);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion
+
     }
 
 

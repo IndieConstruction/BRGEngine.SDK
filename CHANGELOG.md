@@ -2,6 +2,7 @@
 
 ## [1.3.0] 
 - Added Dynamic system mechanics.
+- Added Button Attribute editor for ScriptableObjects.
 
 ## [1.2.0] 
 - OnInitializationComplete method called inside any system when systems bootstrap is done.
